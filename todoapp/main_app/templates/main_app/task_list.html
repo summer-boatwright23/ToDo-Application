@@ -1,14 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        <p>{{ request.user }}
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
 
-{% if request.user.is_authenticated %}
-    <p>{{request.user}}
-    <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-<a href="{% url 'login' %}">Login</a>
-{% endif %}
-
-<hr>
-<h1>My To Do List {{color}} <h1>
-    <a href="{% url 'task-create' %}"> Add Item </a>
+    <hr>
+    <h1 class="blue-text text-darken-2">My To Do List {{ color }}</h1>
+    <a class="waves-effect waves-light btn" href="{% url 'task-create' %}">Add Item</a>
 
     <table>
         <tr>
@@ -18,12 +25,19 @@
         </tr>
         {% for task in tasks %}
         <tr>
-            <td>{{task.title}}</td>
-            <td><a href="{% url 'task' task.id %}">View</a></td>
-            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
-            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+            <td>{{ task.title }}</td>
+            <td><a class="waves-effect waves-light btn-small" href="{% url 'task' task.id %}">View</a></td>
+            <td><a class="waves-effect waves-light btn-small" href="{% url 'task-update' task.id %}">Edit</a></td>
+            <td><a class="waves-effect waves-light btn-small red" href="{% url 'task-delete' task.id %}">Delete</a></td>
         </tr>
         {% empty %}
-            <h3>No items in list</h3>
+        <tr>
+            <td colspan="4"><h3>No items in the list</h3></td>
+        </tr>
         {% endfor %}
     </table>
+
+    <!-- Include the Materialize JavaScript file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
