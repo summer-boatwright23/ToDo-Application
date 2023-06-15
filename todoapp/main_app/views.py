@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render, redirect, 
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -35,10 +35,10 @@ class RegisterPage(FormView, LoginRequiredMixin):
             login(self.request, user)
         return super().form_valid(form)
     
-    def post(self, *args, **kwargs):
-        if self.request.is_authenticated:
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
             return redirect('tasks')
-        return super().get(*args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
