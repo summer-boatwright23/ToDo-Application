@@ -1,3 +1,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+<a class="waves-effect waves-light btn" href="{% url 'tasks' %}">Go back</a>
 <h1 class="blue-text text-darken-2">Task: {{ task }}</h1>
+<hr>
+<h4 class="blue-text text-darken-2">Category: {{ task.category }}</h4>
+<h4 class="blue-text text-darken-2">Sub-Task: {{ task.subtask }}</h4>
+<h4 class="blue-text text-darken-2">Description: {{ task.description }}</h4>
+<img src="{{ task.image_url }}" alt="Random Image">
+
+

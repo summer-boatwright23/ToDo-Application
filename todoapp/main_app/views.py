@@ -13,6 +13,8 @@ from django.contrib.auth import login
 from .models import Task, Category, SubTask
 
 
+
+
 # Create your views here.
 
 class CustomLoginView(LoginView):
@@ -57,16 +59,23 @@ class TaskDetail(LoginRequiredMixin, DetailView):
     
 class TaskCreate(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['title', 'description', 'complete']
+    fields = ['title', 'category', 'subtask', 'description', 'complete']
     success_url = reverse_lazy('tasks')
     
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(TaskCreate, self).form_valid(form)
+        form.instance.image_url = 'https://picsum.photos/200/300'  # Example URL
+        return super().form_valid(form)
+        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subtasks'] = self.request.POST.getlist('subtask')
+        return context
     
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['title', 'description', 'complete']
+    fields = ['title', 'category', 'subtask', 'description', 'complete']
     success_url = reverse_lazy('tasks')
     
 class DeleteView(LoginRequiredMixin, DeleteView):
